@@ -33,18 +33,20 @@ class _MapScreenState extends State<MapScreen> {
     final String jsonString = await rootBundle.loadString('assets/terrains_flutter.json');
     final List<dynamic> jsonData = json.decode(jsonString);
 
-    List<Marker> markers = jsonData.map((item) {
+    List<Marker> markers = jsonData.map<Marker>((item) {
       return Marker(
-        point: LatLng(item['coordonnees']['lat'], item['coordonnees']['lon']),
+        point: LatLng(item['latitude'], item['longitude']),
         width: 40.0,
         height: 40.0,
-        child: Icon(
+        child: const Icon(
           Icons.location_pin,
           color: Colors.red,
           size: 30.0,
         ),
       );
     }).toList();
+    print("Nombre de marqueurs chargés : ${markers.length}");
+
 
     setState(() {
       allMarkers = markers;
@@ -72,8 +74,8 @@ class _MapScreenState extends State<MapScreen> {
           FlutterMap(
             mapController: mapController,
             options: MapOptions(
-              initialCenter: LatLng(48.8566, 2.3522), // Paris par défaut
-              initialZoom: currentZoom,
+              initialCenter: LatLng(47.2184, -1.5536), // Nantes
+              initialZoom: 13.0,
               minZoom: 5,
               maxZoom: 18,
             ),
